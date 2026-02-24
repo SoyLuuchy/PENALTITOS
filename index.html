@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penaltitos - Gestor de Torneos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="glass-container">
+        <!-- Main Menu -->
+        <section id="menu-view" class="view active">
+            <h1 class="glow-text">PENALTITOS</h1>
+            <p class="subtitle">Gestión de Liga de Puntos</p>
+            <div class="button-group">
+                <button id="btn-create-tourney" class="btn primary">Crear Torneo</button>
+                <div class="file-upload">
+                    <label for="load-json" class="btn secondary">Cargar Torneo</label>
+                    <input type="file" id="load-json" accept=".json" hidden>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create Tournament View -->
+        <section id="create-view" class="view">
+            <h2 class="glow-text">Nuevo Torneo</h2>
+            <div class="form-group">
+                <input type="text" id="tourney-name" placeholder="Nombre del Torneo" class="input-glass">
+            </div>
+            <div id="participants-list" class="participants-container">
+                <div class="participant-entry">
+                    <input type="text" placeholder="Nombre Participante" class="input-glass participant-name">
+                </div>
+            </div>
+            <button id="btn-add-participant" class="btn outline">+ Añadir Participante</button>
+            <div class="button-group">
+                <button id="btn-start-tourney" class="btn primary">Iniciar Torneo</button>
+                <button id="btn-back-menu" class="btn text">Cancelar</button>
+            </div>
+        </section>
+
+        <!-- Game Dashboard View -->
+        <section id="game-view" class="view">
+            <h2 id="display-tourney-name" class="glow-text">Torneo</h2>
+            <nav class="dashboard-nav">
+                <button data-tab="control" class="tab-btn active">Control</button>
+                <button data-tab="leaderboard" class="tab-btn">Ranking</button>
+            </nav>
+            <div id="control-tab" class="tab-content active">
+                <div id="player-controls" class="players-grid"></div>
+            </div>
+            <div id="leaderboard-tab" class="tab-content">
+                <div class="table-container">
+                    <table id="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Jugador</th>
+                                <th>Tot</th>
+                                <th style="color: #00ff88;">+Ses</th>
+                                <th>%</th>
+                                <th>G/F</th>
+                                <th>T</th>
+                                <th>Fin</th>
+                                <th>Col</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sticky-footer">
+                <button id="btn-end-session" class="btn danger">Terminar Sesión</button>
+            </div>
+        </section>
+
+        <!-- Summary View -->
+        <section id="summary-view" class="view">
+            <h2 class="glow-text">Resumen Final</h2>
+            <div class="table-container">
+                <table id="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Jugador</th>
+                            <th>Total</th>
+                            <th>% Gol</th>
+                            <th>G/F</th>
+                            <th>T</th>
+                            <th>Fin</th>
+                            <th>Coll</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="button-group">
+                <button id="btn-confirm-save" class="btn primary">Confirmar y Guardar</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Final Score Modal -->
+    <div id="final-goal-modal" class="modal">
+        <div class="modal-content glass-container">
+            <h3>¿Quién marcó en la final?</h3>
+            <div id="final-players-list" class="button-grid"></div>
+            <button class="btn text close-modal">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
