@@ -140,7 +140,7 @@ function renderControls() {
         card.innerHTML = `
             <div class="player-header">
                 <span class="player-name">${player.name}</span>
-                <span class="player-session-stats">Sesión: ${player.session.goals}G / ${player.session.misses}F</span>
+                <span class="player-session-stats">Sesión: ${player.session.goals}G / ${player.session.misses}F / ${player.session.finals}Fi / ${player.session.slaps}Cl</span>
             </div>
             <div class="player-actions">
                 <button class="score-btn goal" onclick="track('${player.id}', 'goals')">GOL</button>
@@ -163,7 +163,11 @@ window.track = (playerId, type) => {
 };
 
 function calculateSessionPoints() {
-    const sorted = [...tournament.players].sort((a, b) => b.session.goals - a.session.goals);
+    const sorted = [...tournament.players].sort((a, b) => {
+        if (b.session.goals !== a.session.goals) return b.session.goals - a.session.goals;
+        if (a.session.slaps !== b.session.slaps) return a.session.slaps - b.session.slaps;
+        return b.session.finals - a.session.finals;
+    });
     const pointsMap = {};
     sorted.forEach((p, index) => {
         let pts = 0;
@@ -194,7 +198,15 @@ function updateLeaderboard() {
             displayFinals: p.session.finals,
             displaySlaps: p.session.slaps
         };
-    }).sort((a, b) => b.liveTotal - a.liveTotal);
+    }).sort((a, b) => {
+        if (b.liveTotal !== a.liveTotal) return b.liveTotal - a.liveTotal;
+        const totalSlapsA = a.totalSlaps + a.session.slaps;
+        const totalSlapsB = b.totalSlaps + b.session.slaps;
+        if (totalSlapsA !== totalSlapsB) return totalSlapsA - totalSlapsB;
+        const totalFinalsA = a.totalFinals + a.session.finals;
+        const totalFinalsB = b.totalFinals + b.session.finals;
+        return totalFinalsB - totalFinalsA;
+    });
 
     elements.leaderboardBody.innerHTML = ranking.map((p, i) => `
         <tr>
@@ -225,7 +237,11 @@ function showSummary() {
         const totalTry = g + m;
         const per = totalTry > 0 ? ((g / totalTry) * 100).toFixed(1) : 0;
         return { name: p.name, points: hPoints, g, m, t: totalTry, f, s, per };
-    }).sort((a, b) => b.points - a.points);
+    }).sort((a, b) => {
+        if (b.points !== a.points) return b.points - a.points;
+        if (a.s !== b.s) return a.s - b.s;
+        return b.f - a.f;
+    });
 
     if (elements.summaryBody) {
         elements.summaryBody.innerHTML = finalRanking.map((p, i) => `
