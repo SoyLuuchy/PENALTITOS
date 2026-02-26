@@ -35,6 +35,7 @@
             <div id="participants-list" class="participants-container">
                 <div class="participant-entry">
                     <input type="text" placeholder="Nombre Participante" class="input-glass participant-name">
+                    <button class="btn-remove" onclick="this.parentElement.remove()">×</button>
                 </div>
             </div>
             <button id="btn-add-participant" class="btn outline">+ Añadir Participante</button>
@@ -49,10 +50,33 @@
             <h2 id="display-tourney-name" class="glow-text">Torneo</h2>
             <nav class="dashboard-nav">
                 <button data-tab="control" class="tab-btn active">Control</button>
-                <button data-tab="leaderboard" class="tab-btn">Ranking</button>
+                <button data-tab="session" class="tab-btn">Hoy</button>
+                <button data-tab="leaderboard" class="tab-btn">Global</button>
             </nav>
             <div id="control-tab" class="tab-content active">
+                <div class="control-header">
+                    <button id="btn-undo" class="btn outline small">⟲ Deshacer</button>
+                </div>
                 <div id="player-controls" class="players-grid"></div>
+            </div>
+            <div id="session-tab" class="tab-content">
+                <div class="table-container">
+                    <table id="session-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Jugador</th>
+                                <th>Goles</th>
+                                <th>Fallos</th>
+                                <th>T</th>
+                                <th>%</th>
+                                <th>Fin</th>
+                                <th>Col</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
             <div id="leaderboard-tab" class="tab-content">
                 <div class="table-container">
@@ -99,10 +123,45 @@
                     <tbody></tbody>
                 </table>
             </div>
+
+            <div class="history-section">
+                <h3>Historial de Sesiones</h3>
+                <div id="session-history-list" class="history-list"></div>
+            </div>
+
             <div class="button-group">
                 <button id="btn-confirm-save" class="btn primary">Confirmar y Guardar</button>
+                <button id="btn-cancel-summary" class="btn text">Volver</button>
             </div>
         </section>
+
+        <!-- History Detail Modal -->
+        <div id="history-modal" class="modal">
+            <div class="modal-content glass-container scrollable-modal">
+                <h3 id="history-modal-title">Detalles de Sesión</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Jugador</th>
+                                <th>Goles</th>
+                                <th>Fallos</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-modal-body"></tbody>
+                    </table>
+                </div>
+                <button class="btn text"
+                    onclick="document.getElementById('history-modal').classList.remove('active')">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Screen Flash Overlays -->
+        <div id="flash-overlay-goal" class="flash-overlay goal"></div>
+        <div id="flash-overlay-miss" class="flash-overlay miss"></div>
+        <div id="flash-overlay-slap" class="flash-overlay slap"></div>
+        <div id="flash-overlay-final" class="flash-overlay final"></div>
     </div>
 
     <!-- Final Score Modal -->
